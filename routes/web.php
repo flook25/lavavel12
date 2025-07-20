@@ -20,7 +20,7 @@ Route::get('contact', [HomeController::class, 'contact'])->name('contact');
 // Corrected line: Pointing to EmployeeController::class
 Route::get('employees', [EmployeeController::class, 'index']) ->name('employees.index');
 Route::get('employeelist', [EmployeeController::class, 'employeelist']) ->name('employees.employeelist');
-
+Route::get('employee/create', [EmployeeController::class, 'create']) ->name('employees.create');
 
 // First
 Route::get('/', function () {

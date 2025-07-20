@@ -159,4 +159,12 @@ class EmployeeController extends Controller
         // Return View
         return view('employees', compact('employees'));
     }
+
+    public function create()
+    {
+        // แสดงฟอร์มสำหรับเพิ่มพนักงานใหม่
+        return view('create_employee');
+    }
+
+
 }
