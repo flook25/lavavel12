@@ -3,10 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AuthController;
 
 // เรียกใช้งาน Controller ชื่อ HomeController และเรียกใช้ Method ชื่อ showprofile
 // แบบที่ 1
 // Route::get('profile', 'App\Http\Controllers\HomeController@showprofile');
+
+// Redirect หน้าแรกเข้า /home
+Route::get('/', fn() => redirect()->route('home')); 
 
 // แบบที่ 2
 // Home Controller
@@ -21,15 +25,34 @@ Route::get('employeelist', [EmployeeController::class, 'employeelist'])->name('e
 Route::get('employees/create', [EmployeeController::class, 'create'])->name('employees.create');
 Route::post('employees', [EmployeeController::class, 'store'])->name('employees.store');
 
+// Auth Controller (Register)
+Route::get('register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
+
+// Auth Controller (Login)
+Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Auth Controller (dashboard, stock, order, report, profile, setting, logout)
+Route::prefix('backend')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/stock', [AuthController::class, 'stock'])->name('stock');
+    Route::get('/order', [AuthController::class, 'order'])->name('order');
+    Route::get('/report', [AuthController::class, 'report'])->name('report');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::get('/setting', [AuthController::class, 'setting'])->name('setting');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
 // ------------------------------
 // Basic Route
 // ------------------------------
 
 // Welcome
 // GET http://localhost:8000/
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // About
 // GET http://localhost:8000/about
